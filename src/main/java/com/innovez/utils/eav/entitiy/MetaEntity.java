@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,16 +13,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @Entity
-@Table(name="innvz_eav_entity")
+@Table(name="innvz_eav_meta_entity")
 @SuppressWarnings("serial")
-public class EavEntityType implements Serializable {
+public class MetaEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -36,7 +34,7 @@ public class EavEntityType implements Serializable {
 	
 	@ElementCollection(fetch=FetchType.LAZY)
 	@CollectionTable(name="innvz_eav_meta_attribute")
-	private Set<EavMetaAttribute> attributes = new HashSet<>();
+	private Set<MetaAttribute> attributes = new HashSet<>();
 	
 	@Column(name="created_by")
 	private String createdBy;
@@ -57,8 +55,8 @@ public class EavEntityType implements Serializable {
 	private Integer version;
 	
 	// Default constructor required by hibernate jpa persistence engine.
-	EavEntityType() {}
-	public EavEntityType(String entityName, String targetType, Set<EavMetaAttribute> attributes) {
+	MetaEntity() {}
+	public MetaEntity(String entityName, String targetType, Set<MetaAttribute> attributes) {
 		this.entityName = entityName;
 		this.targetType = targetType;
 		this.attributes = attributes;
@@ -73,7 +71,7 @@ public class EavEntityType implements Serializable {
 	public String getTargetType() {
 		return targetType;
 	}
-	public Set<EavMetaAttribute> getAttributes() {
+	public Set<MetaAttribute> getAttributes() {
 		return attributes;
 	}
 	public String getCreatedBy() {

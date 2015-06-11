@@ -2,9 +2,9 @@ package com.innovez.utils.eav.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.innovez.utils.eav.entitiy.EavEntityType;
+import com.innovez.utils.eav.entitiy.MetaEntity;
 
-public interface EavEntityTypeRepository extends JpaRepository<EavEntityType, Integer> {
+public interface MetaEntityRepository extends JpaRepository<MetaEntity, Integer> {
 	/**
 	 * Check whether given eav entity name is already registered.
 	 * 
@@ -19,5 +19,5 @@ public interface EavEntityTypeRepository extends JpaRepository<EavEntityType, In
 	 * @param name
 	 * @return
 	 */
-	EavEntityType findOneByName(String name);
+	MetaEntity findOneByName(String name);
 }

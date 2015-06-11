@@ -1,13 +1,9 @@
 package com.innovez.utils.eav.entitiy;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
 
 /**
  * Meta attribute of an eav type.
@@ -16,7 +12,7 @@ import javax.persistence.Version;
  */
 @Embeddable
 @SuppressWarnings("serial")
-public class EavMetaAttribute implements Serializable {
+public class MetaAttribute implements Serializable {
 	@Column(name="name")
 	private String name;
 	
@@ -36,8 +32,8 @@ public class EavMetaAttribute implements Serializable {
 	private boolean unique;
 
 	// Default constructor required by hhibernate's jpa persistence engine.
-	public EavMetaAttribute() {}
-	public EavMetaAttribute(String name, String fieldName, String type, boolean identifier, boolean nullable, boolean unique) {
+	public MetaAttribute() {}
+	public MetaAttribute(String name, String fieldName, String type, boolean identifier, boolean nullable, boolean unique) {
 		this.name = name;
 		this.fieldName = fieldName;
 		this.type = type;

@@ -22,12 +22,12 @@ import org.springframework.validation.annotation.Validated;
 import com.innovez.utils.eav.annotation.EavAttribute;
 import com.innovez.utils.eav.annotation.EavEntity;
 import com.innovez.utils.eav.annotation.EavId;
-import com.innovez.utils.eav.entitiy.EavEntityType;
-import com.innovez.utils.eav.entitiy.EavMetaAttribute;
-import com.innovez.utils.eav.repository.EavEntityTypeRepository;
+import com.innovez.utils.eav.entitiy.MetaEntity;
+import com.innovez.utils.eav.entitiy.MetaAttribute;
+import com.innovez.utils.eav.repository.MetaEntityRepository;
 
 /**
- * Default implementation of {@link EavStorageService} interface,
+ * Default implementation of {@link StorageService} interface,
  * this object type backed by jpa persistence engine.
  * 
  * @author zakyalvan
@@ -35,15 +35,15 @@ import com.innovez.utils.eav.repository.EavEntityTypeRepository;
 @Service
 @Validated
 @Transactional(readOnly=true)
-public class JpaBackedEavStorageService implements EavStorageService {
+public class JpaBackedStorageService implements StorageService {
 	private static final Logger LOGGER = 
-			LoggerFactory.getLogger(JpaBackedEavStorageService.class);
+			LoggerFactory.getLogger(JpaBackedStorageService.class);
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	@Autowired
-	private EavMetadataService metadataService;
+	private MetadataService metadataService;
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)

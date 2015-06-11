@@ -17,8 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import com.innovez.utils.eav.annotation.EavAttribute;
 import com.innovez.utils.eav.annotation.EavEntity;
 import com.innovez.utils.eav.annotation.EavId;
-import com.innovez.utils.eav.entitiy.EavEntityType;
-import com.innovez.utils.eav.entitiy.EavMetaAttribute;
+import com.innovez.utils.eav.entitiy.MetaEntity;
+import com.innovez.utils.eav.entitiy.MetaAttribute;
 
 /**
  * 
@@ -28,8 +28,8 @@ import com.innovez.utils.eav.entitiy.EavMetaAttribute;
 @Service
 @Validated
 @Transactional(propagation=Propagation.REQUIRED)
-public class JpaBackedEavMetadataService implements EavMetadataService {
-	public static final Logger LOGGER = LoggerFactory.getLogger(JpaBackedEavMetadataService.class);
+public class JpaBackedMetadataService implements MetadataService {
+	public static final Logger LOGGER = LoggerFactory.getLogger(JpaBackedMetadataService.class);
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -51,13 +51,13 @@ public class JpaBackedEavMetadataService implements EavMetadataService {
 		
 		String entityName = eavEntity.name() != null ? eavEntity.name() : eavType.getSimpleName();
 		String targetType = eavType.getName();
-		Set<EavMetaAttribute> metaAttributes = new HashSet<>();
+		Set<MetaAttribute> metaAttributes = new HashSet<>();
 		
 		Field[] fields = eavType.getDeclaredFields();
 		for(Field field : fields) {
 			EavId eavId = field.getDeclaredAnnotation(EavId.class);
 			if(eavId != null) {
-				EavMetaAttribute metaAttribute = new EavMetaAttribute(
+				MetaAttribute metaAttribute = new MetaAttribute(
 						field.getName(), 
 						field.getName(), 
 						field.getType().getName(), 
@@ -69,7 +69,7 @@ public class JpaBackedEavMetadataService implements EavMetadataService {
 			
 			EavAttribute eavAttribute = field.getAnnotation(EavAttribute.class);
 			if(eavAttribute != null) {
-				EavMetaAttribute metaAttribute = new EavMetaAttribute(
+				MetaAttribute metaAttribute = new MetaAttribute(
 						!eavAttribute.name().isEmpty() ? eavAttribute.name() : field.getName(),
 						field.getName(), 
 						field.getType().getName(), 
@@ -82,7 +82,7 @@ public class JpaBackedEavMetadataService implements EavMetadataService {
 			}
 		}
 		
-		EavEntityType entityType = new EavEntityType(entityName, targetType, metaAttributes);
+		MetaEntity entityType = new MetaEntity(entityName, targetType, metaAttributes);
 		entityManager.persist(entityType);
 	}
 }

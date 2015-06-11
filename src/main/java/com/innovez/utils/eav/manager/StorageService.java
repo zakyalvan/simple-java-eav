@@ -7,7 +7,7 @@ import java.util.List;
  * 
  * @author zakyalvan
  */
-public interface EavStorageService {
+public interface StorageService {
 	/**
 	 * Save one eav entity.
 	 * 
