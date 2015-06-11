@@ -1,15 +1,6 @@
 package com.innovez.utils.eav.manager;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import com.innovez.utils.eav.annotation.EavEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
-import com.innovez.utils.eav.annotation.EavAttribute;
-import com.innovez.utils.eav.annotation.EavEntity;
-import com.innovez.utils.eav.annotation.EavId;
-import com.innovez.utils.eav.entitiy.MetaEntity;
-import com.innovez.utils.eav.entitiy.MetaAttribute;
-import com.innovez.utils.eav.repository.MetaEntityRepository;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Default implementation of {@link StorageService} interface,
@@ -100,7 +90,7 @@ public class JpaBackedStorageService implements StorageService {
 	 * Check whether given class parameter has eav metadata.
 	 * Simply check whether given marked with {@link EavEntity} annotation.
 	 * 
-	 * @param type
+	 * @param eavType
 	 * @return
 	 */
 	private boolean isValidEavType(Class<?> eavType) {

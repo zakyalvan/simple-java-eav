@@ -21,8 +21,8 @@ import com.innovez.utils.eav.entitiy.MetaEntity;
 import com.innovez.utils.eav.entitiy.MetaAttribute;
 
 /**
- * 
- * 
+ *
+ *
  * @author zakyalvan
  */
 @Service
@@ -38,15 +38,12 @@ public class JpaBackedMetadataService implements MetadataService {
 	public boolean hasEntityMetadata(String entityName) {
 		return false;
 	}
-	
-	/**
-	 * Parse and create (save to database) eav entity type metadata.
-	 * 
-	 * @param type
-	 */
+
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void createEntityMetadata(Class<?> eavType) {
+		LOGGER.debug("Create entity metadata.");
+
 		EavEntity eavEntity = eavType.getAnnotation(EavEntity.class);
 		
 		String entityName = eavEntity.name() != null ? eavEntity.name() : eavType.getSimpleName();
