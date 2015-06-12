@@ -1,5 +1,6 @@
-package com.innovez.utils.eav.manager;
+package com.innovez.utils.eav.service;
 
+import com.innovez.utils.eav.entitiy.MetaEntity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
@@ -22,4 +23,12 @@ public interface MetadataService {
      * @param entityType
      */
 	void createEntityMetadata(@NotNull Class<?> entityType);
+
+    /**
+     * Retrieve entity metadata ({@link MetaEntity}).
+     *
+     * @param entityType
+     * @return
+     */
+    MetaEntity getEntityMetadata(@NotNull Class<?> entityType);
 }

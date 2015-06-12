@@ -1,20 +1,8 @@
 package com.innovez.utils.eav.entitiy;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="innvz_eav_attribute_value")
@@ -46,7 +34,12 @@ public class AttributeValue implements Serializable {
 	@Column(name="updated_timestamp")
 	private Date updatedTimestamp;
 
-	public Long getId() {
+    public AttributeValue(EntityInstance entityInstance, MetaAttribute metaAttribute) {
+        this.entityInstance = entityInstance;
+        this.metaAttribute = metaAttribute;
+    }
+
+    public Long getId() {
 		return id;
 	}
 

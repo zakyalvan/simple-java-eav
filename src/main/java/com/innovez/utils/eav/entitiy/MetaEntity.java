@@ -1,9 +1,7 @@
 package com.innovez.utils.eav.entitiy;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -31,11 +29,11 @@ public class MetaEntity implements Serializable {
 	
 	@Column(name="target_type")
 	private String targetType;
-	
-	@ElementCollection(fetch=FetchType.LAZY)
-	@CollectionTable(name="innvz_eav_meta_attribute")
-	private Set<MetaAttribute> attributes = new HashSet<>();
-	
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "innvz_eav_meta_attributes")
+	private Map<String, MetaAttribute> metaAttributes = new HashMap<>();
+
 	@Column(name="created_by")
 	private String createdBy;
 	
@@ -56,10 +54,10 @@ public class MetaEntity implements Serializable {
 	
 	// Default constructor required by hibernate jpa persistence engine.
 	MetaEntity() {}
-	public MetaEntity(String entityName, String targetType, Set<MetaAttribute> attributes) {
+	public MetaEntity(String entityName, String targetType, Map<String, MetaAttribute> metaAttributes) {
 		this.entityName = entityName;
 		this.targetType = targetType;
-		this.attributes = attributes;
+		this.metaAttributes.putAll(metaAttributes);
 	}
 
 	public Integer getId() {
@@ -71,10 +69,12 @@ public class MetaEntity implements Serializable {
 	public String getTargetType() {
 		return targetType;
 	}
-	public Set<MetaAttribute> getAttributes() {
-		return attributes;
-	}
-	public String getCreatedBy() {
+
+    public Map<String, MetaAttribute> getMetaAttributes() {
+        return metaAttributes;
+    }
+
+    public String getCreatedBy() {
 		return createdBy;
 	}
 	public Date getCreatedTimestamp() {

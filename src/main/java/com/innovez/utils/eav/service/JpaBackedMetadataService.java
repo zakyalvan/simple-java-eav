@@ -1,7 +1,9 @@
-package com.innovez.utils.eav.manager;
+package com.innovez.utils.eav.service;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
 import com.innovez.utils.eav.annotation.EavAttribute;
@@ -21,15 +24,15 @@ import com.innovez.utils.eav.entitiy.MetaEntity;
 import com.innovez.utils.eav.entitiy.MetaAttribute;
 
 /**
- *
+ * Default implementation of {@link MetadataService} internally backed Jpa persistence engine.
  *
  * @author zakyalvan
  */
-@Service
 @Validated
 @Transactional(propagation=Propagation.REQUIRED)
 public class JpaBackedMetadataService implements MetadataService {
-	public static final Logger LOGGER = LoggerFactory.getLogger(JpaBackedMetadataService.class);
+	public static final Logger LOGGER =
+            LoggerFactory.getLogger(JpaBackedMetadataService.class);
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -46,9 +49,9 @@ public class JpaBackedMetadataService implements MetadataService {
 
 		EavEntity eavEntity = eavType.getAnnotation(EavEntity.class);
 		
-		String entityName = eavEntity.name() != null ? eavEntity.name() : eavType.getSimpleName();
+		String entityName = eavType.getSimpleName();
 		String targetType = eavType.getName();
-		Set<MetaAttribute> metaAttributes = new HashSet<>();
+		Map<String, MetaAttribute> metaAttributes = new HashMap<>();
 		
 		Field[] fields = eavType.getDeclaredFields();
 		for(Field field : fields) {
@@ -61,7 +64,7 @@ public class JpaBackedMetadataService implements MetadataService {
 						true, 
 						false, 
 						true);
-				metaAttributes.add(metaAttribute);
+				metaAttributes.put(field.getName(), metaAttribute);
 			}
 			
 			EavAttribute eavAttribute = field.getAnnotation(EavAttribute.class);
@@ -73,13 +76,26 @@ public class JpaBackedMetadataService implements MetadataService {
 						false, 
 						eavAttribute.nullable(), 
 						eavAttribute.unique());
-				metaAttributes.add(metaAttribute);
-				
-				metaAttributes.add(metaAttribute);
+
+				metaAttributes.put(field.getName(), metaAttribute);
 			}
 		}
 		
 		MetaEntity entityType = new MetaEntity(entityName, targetType, metaAttributes);
 		entityManager.persist(entityType);
 	}
+
+    @Override
+    public MetaEntity getEntityMetadata(Class<?> entityType) {
+        EavEntity eavEntity = entityType.getClass().getDeclaredAnnotation(EavEntity.class);
+        Assert.isTrue(eavEntity != null, "Given type is not valid eav entity");
+
+        String entityName = entityType.getSimpleName();
+
+        String queryString = "SELECT me FROM MetaEntity AS me WHERE me.name = :entityName";
+        MetaEntity metaEntity = entityManager.createQuery(queryString, MetaEntity.class)
+                .setParameter("entityName", entityName)
+                .getSingleResult();
+        return metaEntity;
+    }
 }

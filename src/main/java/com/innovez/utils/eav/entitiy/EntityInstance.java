@@ -34,7 +34,7 @@ public class EntityInstance implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="meta_entity_id", referencedColumnName="id")
-	private MetaEntity entity;
+	private MetaEntity metaEntity;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="entityInstance")
 	private Set<AttributeValue> attributeValues = new HashSet<>();
@@ -57,11 +57,11 @@ public class EntityInstance implements Serializable {
 		return id;
 	}
 
-	public MetaEntity getEntity() {
-		return entity;
+	public MetaEntity getMetaEntity() {
+		return metaEntity;
 	}
-	public void setEntity(MetaEntity entity) {
-		this.entity = entity;
+	public void setMetaEntity(MetaEntity metaEntity) {
+		this.metaEntity = metaEntity;
 	}
 
 	public Set<AttributeValue> getAttributeValues() {

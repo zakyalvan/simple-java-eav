@@ -15,11 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface EavEntity {
-	/**
-	 * Name of entity, if not given, fully qualified class name 
-	 * of annotated type will be used as entity name.
-	 * 
-	 * @return
-	 */
-	String name() default "";
+
 }
