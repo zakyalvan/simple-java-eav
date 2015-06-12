@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  * Each record of this type is instance of related {@link MetaEntity}.
@@ -31,11 +32,12 @@ public class EntityInstance implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
-	
+
+	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="meta_entity_id", referencedColumnName="id")
 	private MetaEntity metaEntity;
-	
+
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="entityInstance")
 	private Set<AttributeValue> attributeValues = new HashSet<>();
 	

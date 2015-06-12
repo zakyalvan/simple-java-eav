@@ -14,5 +14,14 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Import(EavPersisteceConfiguration.class)
 public @interface EnableEavPersistence {
+    /**
+     * Type of backed persistence. Currently only support JPA.
+     *
+     * @return
+     */
+    PersistenceEngine persistence() default PersistenceEngine.JPA;
 
+    public static enum PersistenceEngine {
+        JPA
+    }
 }

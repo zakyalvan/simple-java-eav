@@ -1,5 +1,7 @@
 package com.innovez.utils.eav.entitiy;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="innvz_eav_meta_entity")
@@ -23,13 +26,16 @@ public class MetaEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
+
+    @NotNull
 	@Column(name="entity_name")
 	private String entityName;
-	
+
+    @NotNull
 	@Column(name="target_type")
 	private String targetType;
 
+    @NotEmpty
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "innvz_eav_meta_attributes")
 	private Map<String, MetaAttribute> metaAttributes = new HashMap<>();
